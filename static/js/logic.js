@@ -6,6 +6,17 @@ d3.json(queryUrl).then(function(data){
 });
 
 let earthquakes = L.layerGroup();
+//Adding a function to vary the bubble fill color, yellow to red, more red is deeper
+//looked up on stack overflow how to create the function for color scale 
+function depthColor(quakeDepth) {
+    return quakeDepth >= 90 ?     'rgb(255,0,0)':
+        quakeDepth >= 70 ?   'rgb(255, 102, 0)':
+        quakeDepth >= 50 ?  'rgb(230, 211, 107)':
+        quakeDepth >= 30 ? 'rgb(201, 220, 119)':
+        quakeDepth >= 10 ? 'rgb(173, 229, 131)':
+        quakeDepth >= -10 ? 'rgb(144, 238, 144)':
+            'rgb(144,238,144)';
+} 
 //used the code from exercise 15.1.10 as a starter here to create the popup and map layers
 //used the code from exercise 15.1.6 as a start for displaying the bubbles
 function createFeatures(earthquakeData) {
@@ -14,18 +25,6 @@ function createFeatures(earthquakeData) {
     function markerSize(quakeMagnitude) {
         return quakeMagnitude * 10000
     };
-
-    //adding a function to vary the bubble fill color, yellow to red, more red is deeper
-    //looked up on stack overflow how to create the function for color scale 
-    function depthColor(quakeDepth) {
-        return quakeDepth >= 90 ?     'rgb(255,0,0)':
-            quakeDepth >= 70 ?   'rgb(255, 102, 0)':
-            quakeDepth >= 50 ?  'rgb(230, 211, 107)':
-            quakeDepth >= 30 ? 'rgb(201, 220, 119)':
-            quakeDepth >= 10 ? 'rgb(173, 229, 131)':
-            quakeDepth >= -10 ? 'rgb(144, 238, 144)':
-                'rgb(144,238,144)';
-    }   
 
     //creating a marker limit
     let marker_limit = earthquakeData.length;
@@ -40,22 +39,10 @@ function createFeatures(earthquakeData) {
         }).bindPopup(`<h3>${earthquakeData[i].properties.place}</h3><hr><p>${new Date(earthquakeData[i].properties.time)}</p>`).addTo(earthquakes);
     }
     createMap(earthquakes);
-
-
   }
 
-  
 //Setting up the legend, to create the legend used and modified code from leaflet legend documentation found at (https://leafletjs.com/examples/choropleth/)
 let mapLegend = L.control({position: "bottomright"});
-function depthColor(quakeDepth) {
-    return quakeDepth >= 90 ?     'rgb(255,0,0)':
-        quakeDepth >= 70 ?   'rgb(255, 102, 0)':
-        quakeDepth >= 50 ?  'rgb(230, 211, 107)':
-        quakeDepth >= 30 ? 'rgb(201, 220, 119)':
-        quakeDepth >= 10 ? 'rgb(173, 229, 131)':
-        quakeDepth >= -10 ? 'rgb(144, 238, 144)':
-            'rgb(144,238,144)';
-} 
 mapLegend.onAdd = function(){
     let div = L.DomUtil.create("div", "info legend"),
         grades = [-10, 10, 30, 50, 70, 90];

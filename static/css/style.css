@@ -9,7 +9,9 @@ html {
   height: 100%;
 }
 
-/*styling code for legend from leaflet documentation (https://leafletjs.com/examples/choropleth/)*/
+/*styling for legend, this code for styling is directly
+ from leaflet documentation (https://leafletjs.com/examples/choropleth/) 
+ I modified it slightly for the purpose of the assignment*/
 .legend {
   line-height: 18px;
   color: #555;
