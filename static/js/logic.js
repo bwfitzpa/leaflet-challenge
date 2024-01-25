@@ -17,8 +17,8 @@ function depthColor(quakeDepth) {
         quakeDepth >= -10 ? 'rgb(144, 238, 144)':
             'rgb(144,238,144)';
 } 
-//used the code from exercise 15.1.10 as a starter here to create the popup and map layers
-//used the code from exercise 15.1.6 as a start for displaying the bubbles
+//I used the code from exercise 15.1.10 as a starter here to create the popup and map layers
+//I used the code from exercise 15.1.6 as a start for displaying the bubbles
 function createFeatures(earthquakeData) {
 
     //Adding in the bubble size using quake magnitude to determine bubble size
@@ -28,7 +28,7 @@ function createFeatures(earthquakeData) {
 
     //creating a marker limit
     let marker_limit = earthquakeData.length;
-
+//Adding in the formatting and text for the popup  (magnitude, location, depth)
     for (let i = 0; i < marker_limit; i++) {
         L.circle([earthquakeData[i].geometry.coordinates[1], earthquakeData[i].geometry.coordinates[0]], {
             fillOpacity: 0.75,
@@ -36,12 +36,18 @@ function createFeatures(earthquakeData) {
             weight: .5,
             fillColor: depthColor(earthquakeData[i].geometry.coordinates[2]),
             radius: markerSize(earthquakeData[i].properties.mag)
-        }).bindPopup(`<h3>${earthquakeData[i].properties.place}</h3><hr><p>${new Date(earthquakeData[i].properties.time)}</p>`).addTo(earthquakes);
+        }).bindPopup(
+            `<h3>${earthquakeData[i].properties.place}</h3>
+            <hr>
+            <p>Magnitude: ${earthquakeData[i].properties.mag}</p>
+            <p>Depth: ${earthquakeData[i].geometry.coordinates[2]}</p>`
+        ).addTo(earthquakes);
     }
     createMap(earthquakes);
   }
 
-//Setting up the legend, to create the legend used and modified code from leaflet legend documentation found at (https://leafletjs.com/examples/choropleth/)
+//Setting up the legend, to create the legend 
+//I used and modified code from leaflet legend documentation found at (https://leafletjs.com/examples/choropleth/)
 let mapLegend = L.control({position: "bottomright"});
 mapLegend.onAdd = function(){
     let div = L.DomUtil.create("div", "info legend"),
