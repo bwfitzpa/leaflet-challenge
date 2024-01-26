@@ -6,7 +6,7 @@ d3.json(queryUrl).then(function(data){
 });
 
 let earthquakes = L.layerGroup();
-//Adding a function to vary the bubble fill color, yellow to red, more red is deeper
+//Adding a function to vary the bubble fill color, green to red, red is deeper
 //looked up on stack overflow how to create the function for color scale 
 function depthColor(quakeDepth) {
     return quakeDepth >= 90 ?     'rgb(255,0,0)':
@@ -62,28 +62,25 @@ mapLegend.onAdd = function(){
     };
 
 function createMap(earthquakes) {
-  
-    // Create the base layers.
+//For this section I used code in exercise 15.1.10 as a starter for creating the map  
+    // Create the base layer
     let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     })
   
-    // let topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    //   attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-    // });
   
-    // Create a baseMap object.
+    // Create the baseMap object
     let baseMap = {
       "Street Map": street,
     //   "Topographic Map": topo
     };
   
-    // Create an overlay object to hold our overlay.
+    // Adding in earthquakes as an overlay
     let overlayMap = {
       Earthquakes: earthquakes,
     };
   
-    // Create our map, giving it the streetmap and earthquakes layers to display on load.
+    // Creating the map
     let myMap = L.map("map", {
       center: [
         50, -120
@@ -92,9 +89,7 @@ function createMap(earthquakes) {
       layers: [street, earthquakes]
     });
   
-    // Create a layer control.
-    // Pass it our baseMaps and overlayMaps.
-    // Add the layer control to the map.
+    // Putting a layer control on the map and adding the legend
     L.control.layers(baseMap, overlayMap, {
       collapsed: false
     }).addTo(myMap); 
